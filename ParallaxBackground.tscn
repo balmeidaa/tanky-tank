@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://StarField.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/mountains.png" type="Texture" id=2]
+[ext_resource path="res://assets/bush2.png" type="Texture" id=3]
+[ext_resource path="res://assets/bush1.png" type="Texture" id=4]
+[ext_resource path="res://assets/tree.png" type="Texture" id=5]
+[ext_resource path="res://assets/bush3.png" type="Texture" id=6]
+[ext_resource path="res://assets/treePine.png" type="Texture" id=7]
+[ext_resource path="res://assets/treeDead.png" type="Texture" id=8]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+follow_viewport_enable = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+position = Vector2( 485.979, 22.556 )
+motion_scale = Vector2( 0.1, 0.1 )
+motion_mirroring = Vector2( 1024, 0 )
+
+[node name="StarField" parent="ParallaxLayer" instance=ExtResource( 1 )]
+position = Vector2( 389.387, 277.699 )
+amount = 15
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+position = Vector2( 426.514, 153.791 )
+motion_mirroring = Vector2( 1024, 0 )
+
+[node name="StarField" parent="ParallaxLayer2" instance=ExtResource( 1 )]
+position = Vector2( 77.7698, 144.86 )
+amount = 15
+
+[node name="Mountains" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.15, 0.2 )
+motion_mirroring = Vector2( 1024, 0 )
+
+[node name="Sprite" type="Sprite" parent="Mountains"]
+position = Vector2( -2.20227, 202.296 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Trees" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.1, 0.1 )
+motion_mirroring = Vector2( 1024, 0 )
+
+[node name="Sprite" type="Sprite" parent="Trees"]
+position = Vector2( 279.924, 500.551 )
+texture = ExtResource( 5 )
+
+[node name="Sprite2" type="Sprite" parent="Trees"]
+position = Vector2( 732.96, 479.452 )
+texture = ExtResource( 8 )
+
+[node name="Sprite3" type="Sprite" parent="Trees"]
+position = Vector2( 1031.3, 475.541 )
+texture = ExtResource( 7 )
+
+[node name="Sprite4" type="Sprite" parent="Trees"]
+position = Vector2( 476.363, 475.135 )
+scale = Vector2( -1, 1 )
+texture = ExtResource( 7 )
+
+[node name="Bushes" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.2, 0.2 )
+motion_mirroring = Vector2( 1024, 0 )
+
+[node name="Sprite" type="Sprite" parent="Bushes"]
+position = Vector2( 17.2618, 580.976 )
+texture = ExtResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="Bushes"]
+position = Vector2( 143.057, 572.32 )
+texture = ExtResource( 4 )
+
+[node name="Sprite4" type="Sprite" parent="Bushes"]
+position = Vector2( 700.41, 574.917 )
+scale = Vector2( -1, 1 )
+texture = ExtResource( 4 )
+
+[node name="Sprite3" type="Sprite" parent="Bushes"]
+position = Vector2( 893.386, 576.809 )
+texture = ExtResource( 6 )

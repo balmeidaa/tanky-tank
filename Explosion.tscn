@@ -1,0 +1,154 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://assets/puff.png" type="Texture" id=1]
+[ext_resource path="res://explosion_gradient.tres" type="Gradient" id=2]
+[ext_resource path="res://sfx/explosion-big-02.wav" type="AudioStream" id=3]
+[ext_resource path="res://Explosion.gd" type="Script" id=4]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 0.128906, 0.0740204, 0.0740204, 1, 1, 1, 1, 0.270588 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0.00282486, 0.345455 ), 0.0, 2.31307, 0, 0, Vector2( 0.508475, 0.881818 ), 0.508134, 0.508134, 0, 0, Vector2( 1, 0.345455 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 1
+emission_sphere_radius = 40.0
+flag_disable_z = true
+direction = Vector3( 0, -50, 0 )
+spread = 19.46
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 120.0
+initial_velocity_random = 0.6
+angular_velocity = 60.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 40.0
+damping_random = 0.5
+angle = 360.0
+angle_random = 1.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = ExtResource( 2 )
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0.0141243, 0 ), 0.0, 7.50909, 0, 0, Vector2( 0.265537, 0.690909 ), 0.479304, 0.479304, 0, 0, Vector2( 0.99435, 0 ), -0.423445, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 350.0
+initial_velocity_random = 0.4
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 100.0
+damping_random = 0.85
+angle = 200.0
+angle_random = 1.0
+scale = 2.0
+scale_random = 0.02
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="Animation" id=10]
+resource_name = "Explode"
+length = 3.0
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("FireBurstParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SmokeParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.25, 1.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AudioStream:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="SmokeParticles" type="Particles2D" parent="."]
+emitting = false
+amount = 20
+lifetime = 3.0
+one_shot = true
+preprocess = 0.6
+explosiveness = 0.6
+local_coords = false
+process_material = SubResource( 5 )
+texture = ExtResource( 1 )
+
+[node name="FireBurstParticles2D" type="Particles2D" parent="."]
+emitting = false
+amount = 64
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.3
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 9 )
+texture = ExtResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Explode"
+anims/Explode = SubResource( 10 )
+
+[node name="AudioStream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+autoplay = true
