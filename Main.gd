@@ -1,8 +1,8 @@
 extends Node2D
 
+const Tank = preload("res://Tank.tscn")
 const Bomber = preload("res://Bomber.tscn")
 const Kamikaze = preload("res://Kamikaze.tscn")
-
 
 onready var credits_container := $Menu/Credits
 onready var life_label := $Margin/Container/containerHP/life
@@ -13,35 +13,32 @@ onready var paralax := $ParallaxBackground
 var scroll_speed := 1.2
 
 var score := 0
-var life_points := 0
+var life_points := 3
 var rng = RandomNumberGenerator.new()
 
 func stop():
     score_timer.stop()
-    $Tween.interpolate_property($Player, "modulate", 
-    Color(1, 1, 1, 1), Color(1, 1, 1, 0), 0.1, 
-    $Tween.TRANS_QUINT, Tween.EASE_IN)
-    $Tween.start()   
+    $Player.hide()  
     $ScoreTimer.stop()
     $BomberTimer.stop()
     $KamikazeTimer.stop()
+    $TankTimer.stop()
     $Menu.show()
-    
+    get_tree().call_group("Tank", "queue_free")
 
 func start():
     score = 0
     life_points = 3
+    
     $Player.position = $StartPoint.position
     $Player.show()
     score_label.text = String(score)
     life_label.text = String(life_points)
     $ScoreTimer.start()
+    $TankTimer.start()
     $BomberTimer.start()
     $KamikazeTimer.start()
-    $Tween.interpolate_property($Player, "modulate", 
-    Color(1, 1, 1, 0), Color(1, 1, 1, 1), 0.5, 
-    $Tween.TRANS_QUINT, Tween.EASE_IN)
-    $Tween.start()   
+  
     
 func _ready():
     credits_container.hide()
@@ -51,6 +48,9 @@ func _ready():
     stop()
 
 func _process(_delta):
+    if life_points <= 0:
+        $Menu/MenuContainer/Label.text = "Time Survived: " + String(score)
+        stop()
     paralax.offset.x-=scroll_speed
     if paralax.offset.x <= -1024:
         paralax.offset.x = 0
@@ -67,7 +67,7 @@ func _on_BomberTimer_timeout():
     bomber.position.y = rand_range(50, 200)
     if direction > 0: 
         bomber.position.x = 1024
-        bomber.get_node("Plane").scale.x =  bomber.get_node("Plane").scale.x * -1 
+        bomber.get_node("Sprite").scale.x =  bomber.get_node("Sprite").scale.x * -1 
     else:
          bomber.position.x = -30
         
@@ -90,11 +90,7 @@ func _on_KamikazeTimer_timeout():
 
 
 func update_player_hit_points():
-    
-    if life_points == 0:
-        $Menu/MenuContainer/Label.text = "Game Over"
-        stop()
-    else:
+    if life_points > 0:
         life_points -= 1
         life_label.text = String(life_points)
     
@@ -119,3 +115,15 @@ func _on_Credits_pressed():
 func _on_Back_pressed():
     credits_container.hide()
     $Menu/MenuContainer.show()
+
+
+func _on_TankTimer_timeout():
+    var offset_x = 1040
+    var initial_y = 572
+    var tank = Tank.instance()
+    add_child(tank)
+    tank.scale = Vector2(0.1, 0.1)
+    tank.position = Vector2(offset_x, initial_y)
+    tank.linear_velocity = Vector2(rand_range(tank.min_speed, tank.max_speed), 0)
+ 
+

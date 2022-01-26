@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends "res://Bomb.gd"
 
 const Bomb = preload("res://Bomb.tscn")
 onready var dropPoint := $DropPoint
@@ -7,7 +7,7 @@ export var max_speed = 350  # Maximum speed range.
 
 
 
-func _on_VisibilityNotifier2D_viewport_exited(viewport):
+func _on_VisibilityNotifier2D_viewport_exited(_viewport):
     queue_free()
 
 
@@ -22,4 +22,9 @@ func drop_bomb():
 
 
 func _on_RadarCollision_body_entered(body):
-    drop_bomb()
+     if body.is_in_group("Player"):
+         call_deferred("drop_bomb")
+
+
+func _on_Area2D_body_entered(body):
+    explode()

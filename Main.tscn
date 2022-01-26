@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ParallaxBackground.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://PlayerInput.gd" type="Script" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
 [ext_resource path="res://assets/moonFull.png" type="Texture" id=5]
 [ext_resource path="res://assets/shield.png" type="Texture" id=6]
@@ -101,7 +100,6 @@ texture = ExtResource( 5 )
 ] instance=ExtResource( 2 )]
 position = Vector2( 140, 572 )
 scale = Vector2( 0.4, 0.4 )
-script = ExtResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 508.944, 304.458 )
@@ -116,6 +114,10 @@ autostart = true
 wait_time = 2.5
 autostart = true
 
+[node name="TankTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
 [node name="BomberPath" type="Path2D" parent="."]
 curve = SubResource( 1 )
 
@@ -123,7 +125,9 @@ curve = SubResource( 1 )
 position = Vector2( -8, 64 )
 rotation = -1.94445e-06
 
-[node name="Ground" type="StaticBody2D" parent="."]
+[node name="Ground" type="StaticBody2D" parent="." groups=[
+"Ground",
+]]
 collision_layer = 2
 collision_mask = 4
 
@@ -148,15 +152,15 @@ __meta__ = {
 [node name="MenuContainer" type="VBoxContainer" parent="Menu"]
 margin_left = 332.0
 margin_right = 692.0
-margin_bottom = 694.0
+margin_bottom = 600.0
 rect_min_size = Vector2( 360, 600 )
 size_flags_horizontal = 4
 alignment = 1
 
 [node name="Label" type="Label" parent="Menu/MenuContainer"]
-margin_top = 267.0
+margin_top = 220.0
 margin_right = 360.0
-margin_bottom = 332.0
+margin_bottom = 285.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 7 )
 text = "Tanky McTank
@@ -164,21 +168,22 @@ text = "Tanky McTank
 align = 1
 
 [node name="Start" type="Button" parent="Menu/MenuContainer"]
-margin_top = 336.0
+margin_top = 289.0
 margin_right = 360.0
-margin_bottom = 386.0
+margin_bottom = 339.0
 rect_min_size = Vector2( 150, 50 )
 custom_fonts/font = ExtResource( 7 )
 text = "Start"
 
 [node name="Credits" type="Button" parent="Menu/MenuContainer"]
-margin_top = 390.0
+margin_top = 343.0
 margin_right = 360.0
-margin_bottom = 427.0
+margin_bottom = 380.0
 custom_fonts/font = ExtResource( 7 )
 text = "Credits"
 
 [node name="Credits" type="VBoxContainer" parent="Menu"]
+visible = false
 margin_left = 325.0
 margin_right = 698.0
 margin_bottom = 600.0
@@ -218,6 +223,7 @@ custom_fonts/font = ExtResource( 7 )
 text = "Back"
 [connection signal="timeout" from="BomberTimer" to="." method="_on_BomberTimer_timeout"]
 [connection signal="timeout" from="KamikazeTimer" to="." method="_on_KamikazeTimer_timeout"]
+[connection signal="timeout" from="TankTimer" to="." method="_on_TankTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 [connection signal="pressed" from="Menu/MenuContainer/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="Menu/MenuContainer/Credits" to="." method="_on_Credits_pressed"]
