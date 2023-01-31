@@ -60,8 +60,8 @@ margin_left = 54.0
 margin_top = 14.0
 margin_right = 72.0
 margin_bottom = 45.0
-custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.996078, 0.984314, 0.984314, 1 )
+custom_fonts/font = ExtResource( 7 )
 text = "0"
 align = 1
 valign = 1
@@ -95,9 +95,7 @@ motion_scale = Vector2( 0.1, 0.001 )
 position = Vector2( 557.34, 121.884 )
 texture = ExtResource( 5 )
 
-[node name="Player" parent="." groups=[
-"Player",
-] instance=ExtResource( 2 )]
+[node name="Player" parent="." groups=["Player"] instance=ExtResource( 2 )]
 position = Vector2( 140, 572 )
 scale = Vector2( 0.4, 0.4 )
 
@@ -123,11 +121,8 @@ curve = SubResource( 1 )
 
 [node name="spawn" type="PathFollow2D" parent="BomberPath"]
 position = Vector2( -8, 64 )
-rotation = -1.94445e-06
 
-[node name="Ground" type="StaticBody2D" parent="." groups=[
-"Ground",
-]]
+[node name="Ground" type="StaticBody2D" parent="." groups=["Ground"]]
 collision_layer = 2
 collision_mask = 4
 
@@ -184,8 +179,8 @@ text = "Credits"
 
 [node name="Credits" type="VBoxContainer" parent="Menu"]
 visible = false
-margin_left = 325.0
-margin_right = 698.0
+margin_left = 327.0
+margin_right = 697.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 360, 600 )
 size_flags_horizontal = 4
@@ -221,6 +216,7 @@ margin_right = 373.0
 margin_bottom = 574.0
 custom_fonts/font = ExtResource( 7 )
 text = "Back"
+
 [connection signal="timeout" from="BomberTimer" to="." method="_on_BomberTimer_timeout"]
 [connection signal="timeout" from="KamikazeTimer" to="." method="_on_KamikazeTimer_timeout"]
 [connection signal="timeout" from="TankTimer" to="." method="_on_TankTimer_timeout"]

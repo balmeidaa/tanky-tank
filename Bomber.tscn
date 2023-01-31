@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/plane.png" type="Texture" id=1]
 [ext_resource path="res://Bomber.gd" type="Script" id=2]
-[ext_resource path="res://sfx/103439__confusion-music__lancaster-bomber.wav" type="AudioStream" id=3]
+[ext_resource path="res://sfx/propeller_plane.wav" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 136.04, 30.5175 )
@@ -40,9 +40,10 @@ collision_mask = 32
 position = Vector2( -18.2161, 12.1884 )
 shape = SubResource( 2 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="flyby" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = -5.0
+pitch_scale = 0.6
 autoplay = true
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -57,5 +58,6 @@ shape = SubResource( 1 )
 [node name="ExplosionPosition" type="Position2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="RadarCollision" to="." method="_on_RadarCollision_body_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

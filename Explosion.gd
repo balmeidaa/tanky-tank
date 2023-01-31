@@ -1,15 +1,12 @@
 extends Node2D
 
-onready var explosion1 = preload("res://sfx/Explosion2.wav")
-onready var explosion2 = preload("res://sfx/bomb.wav")
-    
-var sound_list: Array
+var rng = RandomNumberGenerator.new()
 
 func _ready():
-    randomize() 
-    sound_list = [ explosion1, explosion2 ] 
-    var sound_index = randi() % 2
-    $AudioStream.stream = sound_list[sound_index]  
+
+    rng.randomize()
+    var pitch = rng.randf_range(0.8, 2.0)
+    $AudioStream.pitch_scale = pitch
   
 
 

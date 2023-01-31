@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/turret.png" type="Texture" id=2]
 [ext_resource path="res://DustTrail.tscn" type="PackedScene" id=3]
 [ext_resource path="res://PlayerInput.gd" type="Script" id=4]
-[ext_resource path="res://sfx/explosion-big-02.wav" type="AudioStream" id=5]
+[ext_resource path="res://sfx/gun_shot.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 112.681, 78.8002 )
@@ -40,5 +40,7 @@ autostart = true
 
 [node name="Shoot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
-volume_db = -8.0
+volume_db = 1.0
+pitch_scale = 0.8
+
 [connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]
